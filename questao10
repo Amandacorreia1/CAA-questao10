@@ -1,0 +1,54 @@
+def merge_sort(arr):
+    if len(arr) <= 1:
+        return arr
+
+    meio = len(arr) // 2
+    metade_esquerda = arr[:meio]
+    metade_direita = arr[meio:]
+
+    metade_esquerda = merge_sort(metade_esquerda)
+    metade_direita = merge_sort(metade_direita)
+
+    return mesclar(metade_esquerda, metade_direita)
+
+def mesclar(esquerda, direita):
+    resultado = []
+    i = j = 0
+
+    while i < len(esquerda) and j < len(direita):
+        if esquerda[i] < direita[j]:
+            resultado.append(esquerda[i])
+            i += 1
+        else:
+            resultado.append(direita[j])
+            j += 1
+
+    resultado.extend(esquerda[i:])
+    resultado.extend(direita[j:])
+    return resultado
+
+def tem_par_com_soma(arr, x):
+    arr = merge_sort(arr)  # Ordena o conjunto em O(n · log n)
+
+    esquerda = 0
+    direita = len(arr) - 1
+
+    while esquerda < direita:
+        soma_atual = arr[esquerda] + arr[direita]
+        if soma_atual == x:
+            return True
+        elif soma_atual < x:
+            esquerda += 1
+        else:
+            direita -= 1
+
+    return False
+
+# Exemplo de uso
+S = [1, 4, 6, 8, 10]
+x = 14
+resultado = tem_par_com_soma(S, x)
+if resultado:
+    print("Existem dois elementos cuja soma é igual a", x)
+else:
+    print("Não existem dois elementos cuja soma é igual a", x)
